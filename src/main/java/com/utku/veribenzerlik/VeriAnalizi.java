@@ -6,6 +6,7 @@ import com.utku.veribenzerlik.graph.GraphVizWriter;
 import com.utku.veribenzerlik.model.Record;
 import com.utku.veribenzerlik.similatiry.SimilarityCalculator;
 import com.utku.veribenzerlik.similatiry.SimilarityCalculator.SimilarityResult;
+import com.utku.veribenzerlik.viewer.ASCIIGraphViewer;
 
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,10 @@ public class VeriAnalizi {
             System.out.println("\n4. Benzerlik grafikleri oluşturuluyor...");
             createSimilarityGraphs(pairwiseResults, columnData);
             System.out.println("✓ Benzerlik grafikleri GraphViz formatında kaydedildi");
+            
+            // 5. ASCII Graf görünümü
+            System.out.println("\n5. ASCII formatında benzerlik grafiği:");
+            ASCIIGraphViewer.displaySimilarityMatrix(columnData);
             
             System.out.println("\n=== VERİ BENZERLİK ANALİZİ TAMAMLANDI ===");
             
@@ -122,8 +127,8 @@ public class VeriAnalizi {
             java.util.List<String[]> highSimilarityEdges = new java.util.ArrayList<>();
             
             for (SimilarityResult result : results) {
-                // Benzerlik değeri 0.5'ten yüksek olanları al
-                if (Math.abs(result.score) > 0.5) {
+                // Benzerlik değeri 0.2'den yüksek olanları al (daha düşük threshold)
+                if (Math.abs(result.score) > 0.2) {
                     String[] edge = {
                         result.columnsInvolved.get(0),
                         result.columnsInvolved.get(1),
@@ -131,6 +136,11 @@ public class VeriAnalizi {
                     };
                     highSimilarityEdges.add(edge);
                 }
+                // Tüm sonuçları göster
+                System.out.printf("Benzerlik: %s ↔ %s = %.4f%n", 
+                    result.columnsInvolved.get(0), 
+                    result.columnsInvolved.get(1), 
+                    result.score);
             }
             
             // Yüksek benzerlik grafiği

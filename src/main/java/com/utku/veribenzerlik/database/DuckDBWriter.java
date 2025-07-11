@@ -55,7 +55,7 @@ public class DuckDBWriter {
                     ps.executeUpdate(); // Batch yerine tek tek execute
                     counter++;
 
-                    if (counter % 1_000 == 0) {
+                    if (counter % 100_000 == 0) {
                         System.out.println(counter + " kayıt DuckDB'ye yazıldı.");
                     }
                 }
